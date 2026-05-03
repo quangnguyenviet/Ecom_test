@@ -47,6 +47,12 @@ describe('supplierController', () => {
 
             expect(res.json).toHaveBeenCalledWith(mockRes);
         });
+
+        test('RM_supplierController_TC_010_1 [test_getDetailSupplierById_error] - should return error from server on exception', async () => {
+            supplierService.getDetailSupplierById.mockRejectedValue(new Error('fail'));
+            await supplierController.getDetailSupplierById(req, res);
+            expect(res.json).toHaveBeenCalledWith({ errCode: -1, errMessage: 'Error from server' });
+        });
     });
 
     describe('getAllSupplier', () => {
@@ -55,6 +61,12 @@ describe('supplierController', () => {
             supplierService.getAllSupplier.mockResolvedValue(mockRes);
             await supplierController.getAllSupplier(req, res);
             expect(res.json).toHaveBeenCalledWith(mockRes);
+        });
+
+        test('RM_supplierController_TC_011_1 [test_getAllSupplier_error] - should return error from server on exception', async () => {
+            supplierService.getAllSupplier.mockRejectedValue(new Error('fail'));
+            await supplierController.getAllSupplier(req, res);
+            expect(res.json).toHaveBeenCalledWith({ errCode: -1, errMessage: 'Error from server' });
         });
     });
 
@@ -65,6 +77,12 @@ describe('supplierController', () => {
             await supplierController.updateSupplier(req, res);
             expect(res.json).toHaveBeenCalledWith(mockRes);
         });
+
+        test('RM_supplierController_TC_012_1 [test_updateSupplier_error] - should return error from server on exception', async () => {
+            supplierService.updateSupplier.mockRejectedValue(new Error('fail'));
+            await supplierController.updateSupplier(req, res);
+            expect(res.json).toHaveBeenCalledWith({ errCode: -1, errMessage: 'Error from server' });
+        });
     });
 
     describe('deleteSupplier', () => {
@@ -73,6 +91,12 @@ describe('supplierController', () => {
             supplierService.deleteSupplier.mockResolvedValue(mockRes);
             await supplierController.deleteSupplier(req, res);
             expect(res.json).toHaveBeenCalledWith(mockRes);
+        });
+
+        test('RM_supplierController_TC_013_1 [test_deleteSupplier_error] - should return error from server on exception', async () => {
+            supplierService.deleteSupplier.mockRejectedValue(new Error('fail'));
+            await supplierController.deleteSupplier(req, res);
+            expect(res.json).toHaveBeenCalledWith({ errCode: -1, errMessage: 'Error from server' });
         });
     });
 });

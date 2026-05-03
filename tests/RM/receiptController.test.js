@@ -56,6 +56,18 @@ describe('receiptController', () => {
             expect(res.status).toHaveBeenCalledWith(200);
             expect(res.json).toHaveBeenCalledWith(mockData);
         });
+
+        test('RM_receiptController_TC_003_1 [test_getDetailReceiptById_error] - should return error from server on exception', async () => {
+            receiptService.getDetailReceiptById.mockRejectedValue(new Error('Test Error'));
+
+            await receiptController.getDetailReceiptById(req, res);
+
+            expect(res.status).toHaveBeenCalledWith(200);
+            expect(res.json).toHaveBeenCalledWith({
+                errCode: -1,
+                errMessage: 'Error from server'
+            });
+        });
     });
 
     describe('getAllReceipt', () => {
@@ -69,6 +81,18 @@ describe('receiptController', () => {
             expect(receiptService.getAllReceipt).toHaveBeenCalledWith(req.query);
             expect(res.status).toHaveBeenCalledWith(200);
             expect(res.json).toHaveBeenCalledWith(mockData);
+        });
+
+        test('RM_receiptController_TC_004_1 [test_getAllReceipt_error] - should return error from server on exception', async () => {
+            receiptService.getAllReceipt.mockRejectedValue(new Error('Test Error'));
+
+            await receiptController.getAllReceipt(req, res);
+
+            expect(res.status).toHaveBeenCalledWith(200);
+            expect(res.json).toHaveBeenCalledWith({
+                errCode: -1,
+                errMessage: 'Error from server'
+            });
         });
     });
 
@@ -84,6 +108,18 @@ describe('receiptController', () => {
             expect(res.status).toHaveBeenCalledWith(200);
             expect(res.json).toHaveBeenCalledWith(mockData);
         });
+
+        test('RM_receiptController_TC_005_1 [test_updateReceipt_error] - should return error from server on exception', async () => {
+            receiptService.updateReceipt.mockRejectedValue(new Error('Test Error'));
+
+            await receiptController.updateReceipt(req, res);
+
+            expect(res.status).toHaveBeenCalledWith(200);
+            expect(res.json).toHaveBeenCalledWith({
+                errCode: -1,
+                errMessage: 'Error from server'
+            });
+        });
     });
 
     describe('deleteReceipt', () => {
@@ -98,6 +134,18 @@ describe('receiptController', () => {
             expect(res.status).toHaveBeenCalledWith(200);
             expect(res.json).toHaveBeenCalledWith(mockData);
         });
+
+        test('RM_receiptController_TC_006_1 [test_deleteReceipt_error] - should return error from server on exception', async () => {
+            receiptService.deleteReceipt.mockRejectedValue(new Error('Test Error'));
+
+            await receiptController.deleteReceipt(req, res);
+
+            expect(res.status).toHaveBeenCalledWith(200);
+            expect(res.json).toHaveBeenCalledWith({
+                errCode: -1,
+                errMessage: 'Error from server'
+            });
+        });
     });
 
     describe('createNewReceiptDetail', () => {
@@ -111,6 +159,18 @@ describe('receiptController', () => {
             expect(receiptService.createNewReceiptDetail).toHaveBeenCalledWith(req.body);
             expect(res.status).toHaveBeenCalledWith(200);
             expect(res.json).toHaveBeenCalledWith(mockData);
+        });
+
+        test('RM_receiptController_TC_007_1 [test_createNewReceiptDetail_error] - should return error from server on exception', async () => {
+            receiptService.createNewReceiptDetail.mockRejectedValue(new Error('Test Error'));
+
+            await receiptController.createNewReceiptDetail(req, res);
+
+            expect(res.status).toHaveBeenCalledWith(200);
+            expect(res.json).toHaveBeenCalledWith({
+                errCode: -1,
+                errMessage: 'Error from server'
+            });
         });
     });
 });
