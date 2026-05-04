@@ -23,7 +23,7 @@ describe('supplierController', () => {
         test('RM_supplierController_TC_008 [test_handleCreateNewSupplier_success] - should return 200 and success data', async () => {
             const mockRes = { errCode: 0, message: 'ok' };
             supplierService.createNewSupplier.mockResolvedValue(mockRes);
-            req.body = { name: 'S1' };
+            req.body = { name: 'S1', email: 's@gmail.com' };
 
             await supplierController.createNewSupplier(req, res);
 
@@ -34,6 +34,7 @@ describe('supplierController', () => {
         // Test case: Bắt lỗi khi tạo nhà cung cấp thất bại
         test('RM_supplierController_TC_009 [test_handleCreateNewSupplier_error] - should return error from server on failure', async () => {
             supplierService.createNewSupplier.mockRejectedValue(new Error('fail'));
+            req.body = { name: 'S1' };
             await supplierController.createNewSupplier(req, res);
             expect(res.json).toHaveBeenCalledWith({ errCode: -1, errMessage: 'Error from server' });
         });
@@ -54,6 +55,7 @@ describe('supplierController', () => {
         // Test case: Bắt lỗi khi lấy chi tiết nhà cung cấp
         test('RM_supplierController_TC_010_1 [test_getDetailSupplierById_error] - should return error from server on exception', async () => {
             supplierService.getDetailSupplierById.mockRejectedValue(new Error('fail'));
+            req.query.id = 1;
             await supplierController.getDetailSupplierById(req, res);
             expect(res.json).toHaveBeenCalledWith({ errCode: -1, errMessage: 'Error from server' });
         });
@@ -62,8 +64,9 @@ describe('supplierController', () => {
     describe('getAllSupplier', () => {
         // Test case: Lấy danh sách tất cả nhà cung cấp thành công
         test('RM_supplierController_TC_011 [test_getAllSupplier_success] - should return 200 and all suppliers', async () => {
-            const mockRes = { errCode: 0, data: [] };
+            const mockRes = { errCode: 0, data: ['supplier1'] };
             supplierService.getAllSupplier.mockResolvedValue(mockRes);
+            req.query = { limit: 10 };
             await supplierController.getAllSupplier(req, res);
             expect(res.json).toHaveBeenCalledWith(mockRes);
         });
@@ -71,6 +74,7 @@ describe('supplierController', () => {
         // Test case: Bắt lỗi khi lấy danh sách nhà cung cấp
         test('RM_supplierController_TC_011_1 [test_getAllSupplier_error] - should return error from server on exception', async () => {
             supplierService.getAllSupplier.mockRejectedValue(new Error('fail'));
+            req.query = { limit: 10 };
             await supplierController.getAllSupplier(req, res);
             expect(res.json).toHaveBeenCalledWith({ errCode: -1, errMessage: 'Error from server' });
         });
@@ -81,6 +85,7 @@ describe('supplierController', () => {
         test('RM_supplierController_TC_012 [test_updateSupplier_success] - should return 200 and update result', async () => {
             const mockRes = { errCode: 0, message: 'ok' };
             supplierService.updateSupplier.mockResolvedValue(mockRes);
+            req.body = { id: 1, name: 'New' };
             await supplierController.updateSupplier(req, res);
             expect(res.json).toHaveBeenCalledWith(mockRes);
         });
@@ -88,6 +93,7 @@ describe('supplierController', () => {
         // Test case: Bắt lỗi khi cập nhật nhà cung cấp
         test('RM_supplierController_TC_012_1 [test_updateSupplier_error] - should return error from server on exception', async () => {
             supplierService.updateSupplier.mockRejectedValue(new Error('fail'));
+            req.body = { id: 1, name: 'New' };
             await supplierController.updateSupplier(req, res);
             expect(res.json).toHaveBeenCalledWith({ errCode: -1, errMessage: 'Error from server' });
         });
@@ -98,6 +104,7 @@ describe('supplierController', () => {
         test('RM_supplierController_TC_013 [test_deleteSupplier_success] - should return 200 and delete result', async () => {
             const mockRes = { errCode: 0, message: 'ok' };
             supplierService.deleteSupplier.mockResolvedValue(mockRes);
+            req.body = { id: 1 };
             await supplierController.deleteSupplier(req, res);
             expect(res.json).toHaveBeenCalledWith(mockRes);
         });
@@ -105,6 +112,7 @@ describe('supplierController', () => {
         // Test case: Bắt lỗi khi xóa nhà cung cấp
         test('RM_supplierController_TC_013_1 [test_deleteSupplier_error] - should return error from server on exception', async () => {
             supplierService.deleteSupplier.mockRejectedValue(new Error('fail'));
+            req.body = { id: 1 };
             await supplierController.deleteSupplier(req, res);
             expect(res.json).toHaveBeenCalledWith({ errCode: -1, errMessage: 'Error from server' });
         });

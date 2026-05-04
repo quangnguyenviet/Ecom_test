@@ -24,7 +24,7 @@ describe('receiptController', () => {
             // Giả lập dữ liệu trả về từ service
             const mockData = { errCode: 0, message: 'OK' };
             receiptService.createNewReceipt.mockResolvedValue(mockData);
-            req.body = { userId: 1 };
+            req.body = { userId: 1, supplierId: 1, productDetailSizeId: 1, quantity: 10, price: 1000 };
 
             // Gọi hàm controller
             await receiptController.createNewReceipt(req, res);
@@ -39,6 +39,7 @@ describe('receiptController', () => {
         test('RM_receiptController_TC_002 [test_handleCreateNewReceipt_error] - should return error from server on exception', async () => {
             // Giả lập lỗi từ service
             receiptService.createNewReceipt.mockRejectedValue(new Error('Test Error'));
+            req.body = { userId: 1 };
 
             // Gọi hàm controller
             await receiptController.createNewReceipt(req, res);
@@ -56,7 +57,7 @@ describe('receiptController', () => {
         // Test case: Lấy chi tiết phiếu nhập thành công
         test('RM_receiptController_TC_003 [test_getDetailReceiptById_success] - should return 200 and data', async () => {
             // Giả lập dữ liệu chi tiết phiếu nhập
-            const mockData = { errCode: 0, data: {} };
+            const mockData = { errCode: 0, data: { id: 1 } };
             receiptService.getDetailReceiptById.mockResolvedValue(mockData);
             req.query.id = 1;
 
@@ -71,6 +72,7 @@ describe('receiptController', () => {
         // Test case: Bắt lỗi khi lấy chi tiết phiếu nhập
         test('RM_receiptController_TC_003_1 [test_getDetailReceiptById_error] - should return error from server on exception', async () => {
             receiptService.getDetailReceiptById.mockRejectedValue(new Error('Test Error'));
+            req.query.id = 1;
 
             await receiptController.getDetailReceiptById(req, res);
 
@@ -86,7 +88,7 @@ describe('receiptController', () => {
         // Test case: Lấy danh sách tất cả phiếu nhập thành công
         test('RM_receiptController_TC_004 [test_getAllReceipt_success] - should return 200 and data', async () => {
             // Giả lập danh sách phiếu nhập
-            const mockData = { errCode: 0, data: [] };
+            const mockData = { errCode: 0, data: ['receipt1'] };
             receiptService.getAllReceipt.mockResolvedValue(mockData);
             req.query = { limit: 10, offset: 0 };
 
@@ -101,6 +103,7 @@ describe('receiptController', () => {
         // Test case: Bắt lỗi khi lấy danh sách phiếu nhập
         test('RM_receiptController_TC_004_1 [test_getAllReceipt_error] - should return error from server on exception', async () => {
             receiptService.getAllReceipt.mockRejectedValue(new Error('Test Error'));
+            req.query = { limit: 10, offset: 0 };
 
             await receiptController.getAllReceipt(req, res);
 
@@ -118,7 +121,7 @@ describe('receiptController', () => {
             // Giả lập kết quả cập nhật
             const mockData = { errCode: 0, message: 'OK' };
             receiptService.updateReceipt.mockResolvedValue(mockData);
-            req.body = { id: 1 };
+            req.body = { id: 1, supplierId: 2 };
 
             await receiptController.updateReceipt(req, res);
 
@@ -131,6 +134,7 @@ describe('receiptController', () => {
         // Test case: Bắt lỗi khi cập nhật phiếu nhập
         test('RM_receiptController_TC_005_1 [test_updateReceipt_error] - should return error from server on exception', async () => {
             receiptService.updateReceipt.mockRejectedValue(new Error('Test Error'));
+            req.body = { id: 1, supplierId: 2 };
 
             await receiptController.updateReceipt(req, res);
 
@@ -160,6 +164,7 @@ describe('receiptController', () => {
         // Test case: Bắt lỗi khi xóa phiếu nhập
         test('RM_receiptController_TC_006_1 [test_deleteReceipt_error] - should return error from server on exception', async () => {
             receiptService.deleteReceipt.mockRejectedValue(new Error('Test Error'));
+            req.body = { id: 1 };
 
             await receiptController.deleteReceipt(req, res);
 
@@ -177,7 +182,7 @@ describe('receiptController', () => {
             // Giả lập kết quả tạo chi tiết phiếu nhập
             const mockData = { errCode: 0, message: 'OK' };
             receiptService.createNewReceiptDetail.mockResolvedValue(mockData);
-            req.body = { receiptId: 1 };
+            req.body = { receiptId: 1, quantity: 5 };
 
             await receiptController.createNewReceiptDetail(req, res);
 
@@ -189,6 +194,7 @@ describe('receiptController', () => {
         // Test case: Bắt lỗi khi tạo chi tiết phiếu nhập
         test('RM_receiptController_TC_007_1 [test_createNewReceiptDetail_error] - should return error from server on exception', async () => {
             receiptService.createNewReceiptDetail.mockRejectedValue(new Error('Test Error'));
+            req.body = { receiptId: 1, quantity: 5 };
 
             await receiptController.createNewReceiptDetail(req, res);
 
